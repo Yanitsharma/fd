@@ -1,4 +1,5 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 export const PostList = createContext({
   postList: [],
@@ -11,7 +12,7 @@ export const PostList = createContext({
 let data={};
 const delete1 = async (pd)=>{
     try{
-let response=await axios.delete(`http://localhost:2000/api/${pd}`);  
+let response=await axios.delete(`https://social-media-app-4-bm12.onrender.com/api/${pd}`);  
    console.log(response.data);
     }
     catch(error){
@@ -21,7 +22,7 @@ let response=await axios.delete(`http://localhost:2000/api/${pd}`);
 
 const like= async (data,id)=>{
  try{
-    let response=await axios.put(`http://localhost:2000/api/${id}`,data);
+    let response=await axios.put(`https://social-media-app-4-bm12.onrender.com/api/${id}`,data);
     console.log(response.data);
  }
  catch(error){
@@ -64,10 +65,24 @@ const postListReducer =  (currPostList, action) => {
 };
 
 const PostListProvider = ({ children }) => {
+  // const [value,setvalue]=useState([
+  // ]);
   const [postList, dispatchPostList] = useReducer(
     postListReducer,
     DEFAULT_POST_LIST
   );
+  // let count=1;
+
+  // useEffect(()=>{
+  //   axios.get("https://social-media-app-4-bm12.onrender.com/api/post").then((res)=>{
+  //     if(count){
+  //       setvalue(res.data);
+  //     console.log(res.data);
+  //     count=0;
+  //     }
+  //   }
+  // )},[])
+  
 
   const addPost = ( id,postTitle, postBody,reactions, tags,img) => {
     dispatchPostList({
@@ -107,12 +122,14 @@ const PostListProvider = ({ children }) => {
     </PostList.Provider>
   );
 };
-let DEFAULT_POST_LIST=[];
 
+let DEFAULT_POST_LIST=[];
+  let response= await axios.get('https://social-media-app-4-bm12.onrender.com/api/post');
+  DEFAULT_POST_LIST=response.data
 
   
-  let response= await axios.get('http://localhost:2000/api/post');
-  DEFAULT_POST_LIST=response.data
+  
+  
   // console.log(DEFAULT_POST_LIST);
   
   

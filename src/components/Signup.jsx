@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
         password:password,
       }
     try{
-     const response=await axios.post("http://localhost:2000/api/signup", data)
+     const response=await axios.post("https://social-media-app-4-bm12.onrender.com/api/signup", data)
      
         console.log(response);
         console.log(response.status);
